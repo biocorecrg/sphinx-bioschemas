@@ -2,18 +2,13 @@
 name = "sphinx-bioschemas"
 description = "A Sphinx extension that inserts a Bioschemas."
 readme = "README.rst"
-license = { "text" = 'MIT' }
-authors = [
-  { name = "Toni Hermoso Pulido", email = 'toni.hermoso@crg.eu' },
-]
-requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Toni Hermoso Pulido", email = 'toni.hermoso@crg.eu' }]
+requires-python = ">=3.10"
 dependencies = [
     "docutils>=0.16,<1.0",
     "pyyaml",
     "sphinx>=4.0,<8.0"
-]
-include = [
-  "sphinx-bioschemas*",
 ]
 
 [build-system]
