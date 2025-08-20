@@ -1,0 +1,22 @@
+bioschemas:
+  "@context": https://schema.org/
+  "@type": LearningResource
+  "http://purl.org/dc/terms/conformsTo":
+  - "@type": CreativeWork
+    "@id": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE"
+  about:
+    - "@id": https://schema.org
+    - "@id": http://edamontology.org/topic_0089
+  audience:
+  - "@type": Audience
+    name: (Markup provider, Markup consumer) WebMaster, people deploying GitHub pages
+  name: "Adding Schema.org to a GitHub Pages site based on Sphinx."
+  author:
+  - "@type": Person
+    name: "Niall Beard"
+    "@id": https://bioschemas.org/people/NiallBeard
+    url: https://bioschemas.org/people/NiallBeard
+  dateModified: 2025-08-20
+  description: "This guide will show you how to do add Schema.org markup to a GitHub Pages site based on Sphinx."
+  keywords: "schemaorg, TeSS, GitHub pages"
+  license: MIT

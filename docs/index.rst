@@ -11,6 +11,10 @@ Welcome to Sphinx Bioschemas's documentation!
    :caption: Contents:
 
 
+Example schema
+==============
+
+.. bioschemas:: bioschemas.yaml
 
 Indices and tables
 ==================
