@@ -32,35 +32,64 @@ def convert_dates(obj):
 class BioschemasDirective(rst.Directive):
     """Class of the Bioschemas."""
 
-    required_arguments = 1  # Path to the file
     has_content = False  # In the future we might allow to embed the content bit
+    required_arguments = 0  # Make file path optional
+    optional_arguments = 1  # File path is now optional
+    has_content = True  # Allow embedded content
+
+    option_spec = {
+        "format": lambda arg: arg.lower(),  # e.g., "json" or "yaml"
+    }
 
     def run(self) -> list[nodes.raw]:
-        file_path = self.arguments[0]
-        if not os.path.isfile(file_path):
-            error = self.state_machine.reporter.error(
-                f"Bioschemas file not found: {file_path}", line=self.lineno
-            )
-            return [error]
-
-        _, ext = os.path.splitext(file_path)
         data = None
-        if ext.lower() in [".yaml", ".yml"]:
-            if yaml is None:
+        # If content is provided, use it
+        if self.content:
+            fmt = self.options.get("format", "yaml")
+            content_str = "\n".join(self.content)
+            if fmt == "yaml":
+                if yaml is None:
+                    error = self.state_machine.reporter.error(
+                        "pyyaml is required for YAML support.", line=self.lineno
+                    )
+                    return [error]
+                data = yaml.safe_load(content_str)
+                data = convert_dates(data)
+            elif fmt == "json":
+                data = json.loads(content_str)
+            else:
                 error = self.state_machine.reporter.error(
-                    "pyyaml is required for YAML support.", line=self.lineno
+                    "Unsupported format. Use 'json' or 'yaml'.", line=self.lineno
                 )
                 return [error]
-            with open(file_path, "r", encoding="utf-8") as f:
-                data = yaml.safe_load(f)
-                data = convert_dates(data)
-                # logger.debug(f"Loaded YAML data from {file_path}: {data}")
-        elif ext.lower() in [".json", ".jsonld"]:
-            with open(file_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
+        elif self.arguments:
+            file_path = self.arguments[0]
+            if not os.path.isfile(file_path):
+                error = self.state_machine.reporter.error(
+                    f"Bioschemas file not found: {file_path}", line=self.lineno
+                )
+                return [error]
+            _, ext = os.path.splitext(file_path)
+            if ext.lower() in [".yaml", ".yml"]:
+                if yaml is None:
+                    error = self.state_machine.reporter.error(
+                        "pyyaml is required for YAML support.", line=self.lineno
+                    )
+                    return [error]
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data = yaml.safe_load(f)
+                    data = convert_dates(data)
+            elif ext.lower() in [".json", ".jsonld"]:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            else:
+                error = self.state_machine.reporter.error(
+                    "Unsupported file type. Use .json, .yaml, or .yml", line=self.lineno
+                )
+                return [error]
         else:
             error = self.state_machine.reporter.error(
-                "Unsupported file type. Use .json, .yaml, or .yml", line=self.lineno
+                "No schema content or file path provided.", line=self.lineno
             )
             return [error]
 
