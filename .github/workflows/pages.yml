@@ -8,7 +8,7 @@ on:
       - main
     paths:
       - 'docs/**'
-
+      
 permissions:
       contents: read
       pages: write
