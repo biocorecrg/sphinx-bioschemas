@@ -7,11 +7,41 @@ license = "MIT"
 authors = [{ name = "Toni Hermoso Pulido", email = 'toni.hermoso@crg.eu' }]
 requires-python = ">=3.10"
 dependencies = [
-    "docutils>=0.16,<1.0",
+    "docutils>=0.16",
     "pyyaml",
-    "sphinx>=4.0,<8.0"
+    "sphinx>=4.0"
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--tb=short -v"
+
+[project.urls]
+Homepage = "https://github.com/biocorecrg/sphinx-bioschemas"
+Issues = "https://github.com/biocorecrg/sphinx-bioschemas/issues"
 
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
+
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "sphinx_bioschemas.__version__" }
+
+[tool.setuptools.packages.find]
+where = [
+  ".",
+] # list of folders that contain the packages (["."] by default)
+include = [
+  "sphinx_bioschemas*",
+] # package names should match these glob patterns (["*"] by default)
+namespaces = true # allow scanning PEP 420 namespaces (true by default)
+
