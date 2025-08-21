@@ -15,8 +15,8 @@ project = "Sphinx Bioschemas"
 copyright = "2025, Toni Hermoso Pulido"
 author = "Toni Hermoso Pulido"
 
-version = "0.1"
-release = "0.1"
+version = "0.1.0"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
