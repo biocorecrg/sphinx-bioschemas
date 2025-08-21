@@ -11,6 +11,19 @@ dependencies = [
     "pyyaml",
     "sphinx>=4.0"
 ]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Sphinx :: Extension",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Documentation",
+  "Topic :: Documentation :: Sphinx"
+]
+
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
