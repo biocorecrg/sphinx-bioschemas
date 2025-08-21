@@ -3,11 +3,6 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(".."))
-
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -23,10 +18,9 @@ release = "0.1.0"
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.doctest",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
-    "sphinx-bioschemas",
+    "sphinx_bioschemas",
 ]
 
 templates_path = ["_templates"]
@@ -56,15 +50,3 @@ html_theme_options = {
     "source_branch": "main",
     "source_directory": "docs/",
 }
-
-# -- Options for intersphinx extension ---------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html#configuration
-
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-}
-
-# -- Options for todo extension ----------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
-
-todo_include_todos = True
