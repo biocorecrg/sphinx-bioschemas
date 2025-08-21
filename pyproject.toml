@@ -1,7 +1,7 @@
 [project]
 name = "sphinx-bioschemas"
 version = "0.1.0"
-description = "A Sphinx extension that inserts a Bioschemas."
+description = "A Sphinx extension that inserts a Bioschemas profiles or any kind schema.org structured metadata."
 readme = "README.rst"
 license = "MIT"
 authors = [{ name = "Toni Hermoso Pulido", email = 'toni.hermoso@crg.eu' }]
