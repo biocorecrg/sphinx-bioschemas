@@ -10,8 +10,9 @@ project = "Sphinx Bioschemas"
 copyright = "2025, Toni Hermoso Pulido"
 author = "Toni Hermoso Pulido"
 
-version = "0.1.0"
-release = "0.1.0"
+from sphinx_bioschemas import __version__ as version
+
+release = version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

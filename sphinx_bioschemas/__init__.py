@@ -15,7 +15,7 @@ if not logger.hasHandlers():
     logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 def convert_dates(obj):
