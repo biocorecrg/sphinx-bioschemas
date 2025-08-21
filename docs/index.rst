@@ -24,7 +24,7 @@ Installation
        # conf.py
 
        # Add sphinx-bioschemas to the extensions list
-       extensions = ['sphinx-bioschemas']
+       extensions = ['sphinx_bioschemas']
 
 
 Usage
