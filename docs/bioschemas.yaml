@@ -20,7 +20,7 @@ author:
   name: "Centre for Genomic Regulation"
   "@id": https://ror.org/03wyzt892
   url: https://www.crg.eu
-dateModified: 2025-08-20
+dateModified: 2025-08-21
 description: This guide will show you how to do add Schema.org markup to documentation based on Sphinx
 keywords: "schemaorg, BioSchemas, FAIR, GitHub pages"
 license: MIT

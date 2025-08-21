@@ -102,7 +102,7 @@ Instead of embedding the code, you can also refer to an existing file in either 
     name: "Centre for Genomic Regulation"
     "@id": https://ror.org/03wyzt892
     url: https://www.crg.eu
-  dateModified: 2025-08-20
+  dateModified: 2025-08-21
   description: This guide will show you how to do add Schema.org markup to documentation based on Sphinx
   keywords: "schemaorg, BioSchemas, FAIR, GitHub pages"
   license: MIT
@@ -113,5 +113,5 @@ Instead of embedding the code, you can also refer to an existing file in either 
 Resources
 =========
 
-- `Training material made FAIR by design <https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/>`
-- `Bioschemas profiles with some examples <https://bioschemas.org/profiles/>`
+- `Training material made FAIR by design <https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-Material-By-Design/>`_
+- `Bioschemas profiles with some examples <https://bioschemas.org/profiles/>`_
