@@ -66,11 +66,13 @@ To include the Bioschemas markup in your Sphinx documentation, add the following
 
 Instead of embedding the code, you can also refer to an existing file in either YAML or JSON format.
 
+With **YAML** files:
 
 .. code-block:: rst
 
   .. bioschemas:: bioschemas.yaml
 
+With **JSON** files:
 
 .. code-block:: rst
 
