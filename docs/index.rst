@@ -110,6 +110,10 @@ Instead of embedding the code, you can also refer to an existing file in either 
 .. .. bioschemas:: bioschemas.yaml
 .. .. bioschemas:: bioschemas.json
 
+
+- You can also Markdown :doc:`Using bioschemas extension with MyST <markdown>`.
+
+
 Resources
 =========
 
