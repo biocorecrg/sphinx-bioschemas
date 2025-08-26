@@ -10,6 +10,7 @@ This was originally designed for embedding Bioschemas structured metadata follow
    :maxdepth: 2
    :caption: Contents:
 
+   markdown
 
 Installation
 ============
