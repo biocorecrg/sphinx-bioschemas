@@ -9,6 +9,7 @@ This was originally designed for embedding Bioschemas structured metadata follow
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
 
    markdown
 
