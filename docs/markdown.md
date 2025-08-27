@@ -108,3 +108,7 @@ description: This guide will show you how to do add Schema.org markup to
 keywords: schemaorg, BioSchemas, FAIR, GitHub pages
 license: MIT
 ```
+
+## Resources
+
+- [Using Markdown with Sphinx](https://www.sphinx-doc.org/en/master/usage/markdown.html)
