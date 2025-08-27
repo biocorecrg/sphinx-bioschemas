@@ -10,7 +10,7 @@ about:
 audience:
 - "@type": Audience
   name: (Markup provider, Markup consumer) WebMaster, people deploying GitHub pages
-name: Adding Bioschemas or Schema.org profiles to content written with Sphinx
+name: Sphinx Bioschemas extension
 author:
 - "@type": Person
   name: "Toni Hermoso Pulido"
@@ -22,5 +22,5 @@ author:
   url: https://www.crg.eu
 dateModified: 2025-08-21
 description: This guide will show you how to do add Schema.org markup to documentation based on Sphinx
-keywords: "schemaorg, BioSchemas, FAIR, GitHub pages"
+keywords: "schemaorg, Bioschemas, FAIR, GitHub pages"
 license: MIT

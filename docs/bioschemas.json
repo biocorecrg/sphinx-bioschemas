@@ -18,7 +18,7 @@
       "name": "(Markup provider, Markup consumer) WebMaster, people deploying GitHub pages"
     }
   ],
-  "name": "Adding Bioschemas or Schema.org profiles to content written in Sphinx",
+  "name": "Sphinx Bioschemas extension",
   "author": [
     {
       "@type": "Person",

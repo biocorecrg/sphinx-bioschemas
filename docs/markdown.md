@@ -1,4 +1,4 @@
-# Bioschemas extensions with Markdown
+# Embedding Bioschemas with Markdown
 
 It is possible to embed Bioschemas with Markdown by using the [MyST parser](https://myst-parser.readthedocs.io/en/latest/) extension.
 
@@ -59,7 +59,7 @@ about:
 audience:
   - "@type": Audience
     name: (Markup provider, Markup consumer) WebMaster, people deploying GitHub pages
-name: Adding Bioschemas or Schema.org profiles to content written with Sphinx
+name: Sphinx Bioschemas extension
 author:
   - "@type": Person
     name: Toni Hermoso Pulido
@@ -92,7 +92,7 @@ about:
 audience:
   - "@type": Audience
     name: (Markup provider, Markup consumer) WebMaster, people deploying GitHub pages
-name: Adding Bioschemas or Schema.org profiles to content written with Sphinx
+name: Sphinx Bioschemas extension
 author:
   - "@type": Person
     name: Toni Hermoso Pulido
