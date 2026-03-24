@@ -32,7 +32,12 @@ Installation
 Usage
 =====
 
-To include the Bioschemas markup in your Sphinx documentation, add the following directive to your reStructuredText file:
+There are two ways to embed Bioschemas markup: per-page using the ``bioschemas`` directive, or globally for all pages via ``conf.py``.
+
+Page-specific
+-------------
+
+To include the Bioschemas markup in a specific page, add the ``bioschemas`` directive to your reStructuredText file:
 
 .. code-block:: rst
 
@@ -66,7 +71,7 @@ To include the Bioschemas markup in your Sphinx documentation, add the following
       keywords: "schemaorg, Bioschemas, FAIR, GitHub pages"
       license: MIT
 
-Instead of embedding the code, you can also refer to an existing file in either YAML or JSON format.
+Instead of embedding the metadata inline, you can also refer to an existing file in either YAML or JSON format.
 
 With **YAML** files:
 
@@ -80,6 +85,9 @@ With **JSON** files:
 
   .. bioschemas:: bioschemas.json
 
+.. note::
+
+   You can also use this directive in Markdown files via MyST. See :doc:`Using bioschemas extension with MyST <markdown>`.
 
 .. bioschemas::
   :format: yaml
@@ -111,11 +119,29 @@ With **JSON** files:
   keywords: "schemaorg, Bioschemas, FAIR, GitHub pages"
   license: MIT
 
-.. .. bioschemas:: bioschemas.yaml
-.. .. bioschemas:: bioschemas.json
+Global
+------
 
+To apply Bioschemas markup to every page of your documentation, set the ``bioschemas`` option in ``conf.py`` to a list of YAML or JSON files:
 
-- You can also Markdown :doc:`Using bioschemas extension with MyST <markdown>`.
+.. code-block:: python
+
+   # conf.py
+
+   bioschemas = ["bioschemas.yaml"]
+
+Multiple files are supported and both YAML and JSON formats are accepted:
+
+.. code-block:: python
+
+   # conf.py
+
+   bioschemas = ["base.yaml", "extra.json"]
+
+.. note::
+
+   Global markup is injected into all pages automatically. Page-specific directives add to it — they do not replace it.
+
 
 
 Resources

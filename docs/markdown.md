@@ -2,13 +2,13 @@
 
 It is possible to embed Bioschemas with Markdown by using the [MyST parser](https://myst-parser.readthedocs.io/en/latest/) extension.
 
-You need to install `myst-parser` :
+You need to install `myst-parser`:
 
 ```sh
 pip install myst-parser
 ```
 
-and modify accordingly `conf.py`:
+and enable it in `conf.py`:
 
 ```python
 extensions = [
@@ -17,28 +17,24 @@ extensions = [
     "myst_parser",
 ]
 
+# Add this if .md files are not already included as source files
 source_suffix = [".rst", ".md"]
 ```
 
-Below some of the potential ways to embed Bioschemas:
+The directive can be used in the following ways:
 
 With **YAML** files:
 
 ````
-    ```{bioschemas} ./bioschemas.yaml
-
-    ```
-
+```{bioschemas} ./bioschemas.yaml
+```
 ````
 
 With **JSON** files:
 
 ````
-
-    ```{bioschemas} ./bioschemas.json
-
-    ```
-
+```{bioschemas} ./bioschemas.json
+```
 ````
 
 With inline content, here with **YAML**:
@@ -76,6 +72,10 @@ keywords: schemaorg, BioSchemas, FAIR, GitHub pages
 license: MIT
 ```
 ````
+
+```{note}
+Global markup configured via `conf.py` also applies to Markdown pages. Page-specific directives add to it rather than replacing it. See the [Global usage](index.rst) section for details.
+```
 
 ```{bioschemas}
 :format: yaml

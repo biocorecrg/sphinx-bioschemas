@@ -89,7 +89,7 @@ def test_missing_file():
     with mock.patch("os.path.isfile", return_value=False):
         directive = make_directive(arguments=["missing.yaml"])
         result = directive.run()
-        assert "Bioschemas file not found" in result[0]
+        assert "Failed to load bioschemas file" in result[0]
 
 
 def test_unsupported_format():
