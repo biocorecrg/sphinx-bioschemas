@@ -5,7 +5,6 @@ import json
 import logging
 import os
 from os import PathLike
-from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence, Union, cast
 
 import yaml
@@ -62,8 +61,7 @@ class BioschemasDirective(rst.Directive):
                         "pyyaml is required for YAML support.", line=self.lineno
                     )
                     return [error]
-                data = yaml.safe_load(content_str)
-                data = convert_dates(data)
+                data = convert_dates(yaml.safe_load(content_str))
             elif fmt == "json":
                 data = json.loads(content_str)
             else:
@@ -102,7 +100,7 @@ def load_bioschemas_file(file_path: str) -> Optional[dict]:
                 logger.error("pyyaml is required for YAML support.")
                 return None
             with open(file_path, "r", encoding="utf-8") as f:
-                return yaml.safe_load(f)
+                return convert_dates(yaml.safe_load(f))
         elif ext.lower() in [".json", ".jsonld"]:
             with open(file_path, "r", encoding="utf-8") as f:
                 return json.load(f)

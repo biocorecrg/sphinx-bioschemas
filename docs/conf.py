@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Sphinx Bioschemas"
-copyright = "2025, Toni Hermoso Pulido"
+copyright = "2025-2026, Centre for Genomic Regulation (CRG)"
 author = "Toni Hermoso Pulido"
 
 from sphinx_bioschemas import __version__ as version
@@ -29,12 +29,14 @@ source_suffix = [".rst", ".md"]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# This adds bioschemas.yaml in all pages
+bioschemas = ["bioschemas.yaml"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "furo"
-html_static_path = ["_static"]
+# html_static_path = ["_static"]
 
 html_theme_options = {
     "footer_icons": [
