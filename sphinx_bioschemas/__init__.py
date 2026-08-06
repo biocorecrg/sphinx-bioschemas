@@ -4,8 +4,9 @@ import datetime
 import json
 import logging
 import os
+from collections.abc import Callable
 from os import PathLike
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, ClassVar
 
 import yaml
 from docutils import nodes
@@ -16,11 +17,7 @@ logger = logging.getLogger("sphinx-bioschemas")
 
 __version__ = "0.2.1"
 
-BioschemasDef = Union[
-    str,
-    PathLike[str],
-    List[Union[str, PathLike[str]]],
-]
+BioschemasDef = str | PathLike[str] | list[str | PathLike[str]]
 
 
 def convert_dates(obj):
@@ -41,7 +38,7 @@ class BioschemasDirective(rst.Directive):
     optional_arguments = 1  # File path is now optional
     has_content = True  # Allow embedded content
 
-    option_spec = {
+    option_spec: ClassVar[dict[str, Callable[[str], Any]] | None] = {
         "format": lambda arg: arg.lower(),  # e.g., "json" or "yaml"
     }
 
@@ -87,7 +84,7 @@ class BioschemasDirective(rst.Directive):
         return [nodes.raw("", html, format="html")]
 
 
-def load_bioschemas_file(file_path: str) -> Optional[dict]:
+def load_bioschemas_file(file_path: str) -> dict | None:
     """Load a bioschemas file (YAML or JSON) and return its contents as a dict, or None on error."""
     if not os.path.isfile(file_path):
         logger.warning(f"Bioschemas file not found: {file_path}")
@@ -106,15 +103,15 @@ def load_bioschemas_file(file_path: str) -> Optional[dict]:
         else:
             logger.error(f"Unsupported file type: {file_path}")
             return None
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - any failure here should log and return None, not crash the build
         logger.error(f"Failed to load bioschemas file {file_path}: {e}")
         return None
 
 
 def create_bioschemas_html(
     bioschemas_paths: BioschemasDef,
-    confdir: Union[str, PathLike[str]],
-) -> Optional[str]:
+    confdir: str | PathLike[str],
+) -> str | None:
     """Create <script type=\"application/ld+json\"> tag(s) from bioschemas file(s)."""
     # Normalize input to a list of paths
     if isinstance(bioschemas_paths, (str, PathLike)):
@@ -142,7 +139,7 @@ def html_page_context(
     app: Sphinx,
     pagename: str,
     templatename: str,
-    context: Dict[str, Any],
+    context: dict[str, Any],
     doctree: nodes.document,
 ) -> None:
     """Update the html page context by adding the Bioschemas
@@ -155,8 +152,8 @@ def html_page_context(
         doctree: the docutils document tree
     """
     # extract parameters from app
-    bioschemas: Optional[BioschemasDef] = app.config["bioschemas"]
-    confdir: Union[str, PathLike[str]] = app.confdir
+    bioschemas: BioschemasDef | None = app.config["bioschemas"]
+    confdir: str | PathLike[str] = app.confdir
 
     if not (doctree and bioschemas):
         return

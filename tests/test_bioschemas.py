@@ -1,8 +1,6 @@
 import json
 from unittest import mock
 
-import pytest
-
 from sphinx_bioschemas import (
     BioschemasDirective,
     create_bioschemas_html,
@@ -139,9 +137,7 @@ def test_create_bioschemas_html_multiple_paths():
         mock.patch("os.path.isfile", return_value=True),
         mock.patch("builtins.open", mock.mock_open(read_data=file_content)),
     ):
-        html = create_bioschemas_html(
-            ["a.json", "b.json"], "/fake/confdir"
-        )
+        html = create_bioschemas_html(["a.json", "b.json"], "/fake/confdir")
     assert html is not None
     assert html.count("<script") == 2
 
