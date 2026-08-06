@@ -45,7 +45,7 @@ class BioschemasDirective(rst.Directive):
         "format": lambda arg: arg.lower(),  # e.g., "json" or "yaml"
     }
 
-    def run(self) -> list[nodes.raw]:
+    def run(self) -> list[nodes.Node]:
         data = None
         # If content is provided, use it
         if self.content:

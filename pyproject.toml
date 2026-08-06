@@ -15,7 +15,7 @@ requires-python = ">=3.10"
 dependencies = [
     "docutils>=0.16",
     "pyyaml",
-    "sphinx>=4.0"
+    "sphinx>=5.3.0"
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -26,6 +26,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Software Development :: Documentation",
   "Topic :: Documentation :: Sphinx"
 ]
