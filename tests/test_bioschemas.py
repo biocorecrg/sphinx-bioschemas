@@ -16,8 +16,20 @@ class DummyStateMachine:
     reporter = DummyReporter()
 
 
+class DummyEnv:
+    confdir = "/fake/confdir"
+
+
+class DummySettings:
+    env = DummyEnv()
+
+
+class DummyDocument:
+    settings = DummySettings()
+
+
 class DummyState:
-    document = None
+    document = DummyDocument()
 
 
 def make_directive(content=None, arguments=None, options=None):

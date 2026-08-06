@@ -5,7 +5,7 @@ import json
 import logging
 import os
 from os import PathLike
-from typing import Any, Callable, Dict, List, Optional, Sequence, Union, cast
+from typing import Any, Dict, List, Optional, Union
 
 import yaml
 from docutils import nodes
@@ -13,11 +13,8 @@ from docutils.parsers import rst
 from sphinx.application import Sphinx
 
 logger = logging.getLogger("sphinx-bioschemas")
-if not logger.hasHandlers():
-    logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 BioschemasDef = Union[
     str,
@@ -40,7 +37,6 @@ def convert_dates(obj):
 class BioschemasDirective(rst.Directive):
     """Class of the Bioschemas."""
 
-    has_content = False  # In the future we might allow to embed the content bit
     required_arguments = 0  # Make file path optional
     optional_arguments = 1  # File path is now optional
     has_content = True  # Allow embedded content
@@ -71,6 +67,9 @@ class BioschemasDirective(rst.Directive):
                 return [error]
         elif self.arguments:
             file_path = self.arguments[0]
+            if not os.path.isabs(file_path):
+                confdir = self.state.document.settings.env.confdir
+                file_path = os.path.join(confdir, file_path)
             data = load_bioschemas_file(file_path)
             if data is None:
                 error = self.state_machine.reporter.error(
@@ -113,9 +112,7 @@ def load_bioschemas_file(file_path: str) -> Optional[dict]:
 
 
 def create_bioschemas_html(
-    pathto: Callable,
     bioschemas_paths: BioschemasDef,
-    static_path: Sequence[Union[str, PathLike[str]]],
     confdir: Union[str, PathLike[str]],
 ) -> Optional[str]:
     """Create <script type=\"application/ld+json\"> tag(s) from bioschemas file(s)."""
@@ -130,6 +127,8 @@ def create_bioschemas_html(
     scripts = []
     for path in paths:
         file_path = str(path)
+        if not os.path.isabs(file_path):
+            file_path = os.path.join(str(confdir), file_path)
         data = load_bioschemas_file(file_path)
         if data is None:
             continue
@@ -157,16 +156,14 @@ def html_page_context(
     """
     # extract parameters from app
     bioschemas: Optional[BioschemasDef] = app.config["bioschemas"]
-    pathto: Callable = context["pathto"]
-    static_path = cast(
-        Sequence[Union[str, PathLike[str]]], app.config["html_static_path"]
-    )  # type: ignore[assignment]
     confdir: Union[str, PathLike[str]] = app.confdir
 
     if not (doctree and bioschemas):
         return
 
-    bioschemas_html = create_bioschemas_html(pathto, bioschemas, static_path, confdir)
+    bioschemas_html = create_bioschemas_html(bioschemas, confdir)
+    if not bioschemas_html:
+        return
     head_key = "extrahead" if "extrahead" in context else "metatags"
     context[head_key] = context.get(head_key, "") + bioschemas_html
 
