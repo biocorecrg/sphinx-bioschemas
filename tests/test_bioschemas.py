@@ -1,11 +1,21 @@
 import json
 from unittest import mock
 
+import pytest
+
 from sphinx_bioschemas import (
     BioschemasDirective,
+    _file_cache,
     create_bioschemas_html,
     html_page_context,
 )
+
+
+@pytest.fixture(autouse=True)
+def clear_file_cache():
+    _file_cache.clear()
+    yield
+    _file_cache.clear()
 
 
 # Minimal docutils state mock
@@ -88,6 +98,7 @@ def test_yaml_file(monkeypatch):
     )
     with (
         mock.patch("os.path.isfile", return_value=True),
+        mock.patch("os.stat", return_value=mock.Mock(st_mtime_ns=1)),
         mock.patch("builtins.open", mock.mock_open(read_data=file_content)),
     ):
         directive = make_directive(arguments=["bioschemas.yaml"])
@@ -122,6 +133,7 @@ def test_create_bioschemas_html_single_path():
     file_content = '{"@context": "https://schema.org/", "@type": "LearningResource"}'
     with (
         mock.patch("os.path.isfile", return_value=True),
+        mock.patch("os.stat", return_value=mock.Mock(st_mtime_ns=1)),
         mock.patch("builtins.open", mock.mock_open(read_data=file_content)),
     ):
         html = create_bioschemas_html("bioschemas.json", "/fake/confdir")
@@ -135,6 +147,7 @@ def test_create_bioschemas_html_multiple_paths():
     file_content = '{"@type": "LearningResource"}'
     with (
         mock.patch("os.path.isfile", return_value=True),
+        mock.patch("os.stat", return_value=mock.Mock(st_mtime_ns=1)),
         mock.patch("builtins.open", mock.mock_open(read_data=file_content)),
     ):
         html = create_bioschemas_html(["a.json", "b.json"], "/fake/confdir")
@@ -170,6 +183,7 @@ def test_html_page_context_injects_script():
     file_content = '{"@type": "LearningResource"}'
     with (
         mock.patch("os.path.isfile", return_value=True),
+        mock.patch("os.stat", return_value=mock.Mock(st_mtime_ns=1)),
         mock.patch("builtins.open", mock.mock_open(read_data=file_content)),
     ):
         html_page_context(app, "index", "page.html", context, doctree=object())

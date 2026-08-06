@@ -84,11 +84,17 @@ class BioschemasDirective(rst.Directive):
         return [nodes.raw("", html, format="html")]
 
 
+_file_cache: dict[tuple[str, int], dict] = {}
+
+
 def load_bioschemas_file(file_path: str) -> dict | None:
     """Load a bioschemas file (YAML or JSON) and return its contents as a dict, or None on error."""
     if not os.path.isfile(file_path):
         logger.warning(f"Bioschemas file not found: {file_path}")
         return None
+    cache_key = (os.path.abspath(file_path), os.stat(file_path).st_mtime_ns)
+    if cache_key in _file_cache:
+        return _file_cache[cache_key]
     _, ext = os.path.splitext(file_path)
     try:
         if ext.lower() in [".yaml", ".yml"]:
@@ -96,16 +102,18 @@ def load_bioschemas_file(file_path: str) -> dict | None:
                 logger.error("pyyaml is required for YAML support.")
                 return None
             with open(file_path, "r", encoding="utf-8") as f:
-                return convert_dates(yaml.safe_load(f))
+                data = convert_dates(yaml.safe_load(f))
         elif ext.lower() in [".json", ".jsonld"]:
             with open(file_path, "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
         else:
             logger.error(f"Unsupported file type: {file_path}")
             return None
     except Exception as e:  # noqa: BLE001 - any failure here should log and return None, not crash the build
         logger.error(f"Failed to load bioschemas file {file_path}: {e}")
         return None
+    _file_cache[cache_key] = data
+    return data
 
 
 def create_bioschemas_html(
