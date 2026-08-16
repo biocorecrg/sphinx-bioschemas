@@ -27,10 +27,15 @@ extensions = [
 
 source_suffix = [".rst", ".md"]
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "_profiles", "Thumbs.db", ".DS_Store"]
 
 # This adds bioschemas.yaml in all pages
 bioschemas = ["bioschemas.yaml"]
+
+# Validate the markup above against its declared Bioschemas profile (dogfooding the
+# sphinx-bioschemas "validate" extra); see the Validation section in index.rst.
+bioschemas_validate = "warn"
+bioschemas_validate_profile_dir = "_profiles"
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

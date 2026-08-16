@@ -1,4 +1,5 @@
 furo
+jsonschema
 myst-parser
 sphinx
 sphinx-copybutton

@@ -208,3 +208,7 @@ __marimo__/
 
 # Vectorcode
 .vectorcode/
+
+# Claude Code
+CLAUDE.md
+PLAN*.md

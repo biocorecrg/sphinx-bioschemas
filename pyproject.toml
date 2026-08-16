@@ -45,6 +45,9 @@ Issues = "https://github.com/biocorecrg/sphinx-bioschemas/issues"
 test = [
     "pytest"
 ]
+validate = [
+    "jsonschema>=4.0"
+]
 
 [tool.setuptools]
 include-package-data = true

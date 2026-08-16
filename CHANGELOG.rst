@@ -7,6 +7,66 @@ All notable changes to this project are documented in this file.
 The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.1.0/>`_,
 and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+0.3.0 - 2026-08-13
+==================
+
+Added
+-----
+
+- Optional two-tier validation of embedded markup: structural sanity checks
+  (``@context``, ``@type``, well-formed ``conformsTo``, JSON-serializability)
+  and, for records that declare a Bioschemas profile, validation against
+  that profile's own machine-readable ``$validation`` JSON Schema (missing
+  *Minimum*/*Recommended* properties, schema violations). The profile-schema
+  tier requires the new optional ``jsonschema`` dependency
+  (``pip install "sphinx-bioschemas[validate]"``); without it, structural
+  checks still run.
+- Six new ``conf.py`` values: ``bioschemas_validate``,
+  ``bioschemas_validate_recommended``, ``bioschemas_validate_profile_dir``,
+  ``bioschemas_validate_fetch``, ``bioschemas_validate_cache_dir``,
+  ``bioschemas_validate_timeout``. Validation is **off by default**
+  (``bioschemas_validate = False``).
+- ``:validate:`` and ``:no-validate:`` options on the ``.. bioschemas::``
+  directive, to override the site-wide setting for one record.
+- Profile schemas resolve local-directory-first
+  (``bioschemas_validate_profile_dir``); fetching from GitHub is strictly
+  opt-in (``bioschemas_validate_fetch = True``) and cached to disk, so
+  builds stay hermetic by default.
+- Validation findings are reported as Sphinx warnings/info under the
+  ``bioschemas`` warning type with subtypes ``required``, ``recommended``,
+  ``schema``, ``context``, ``type``, ``profile``, ``serialize``, and
+  ``deps`` — filterable via ``suppress_warnings`` (e.g.
+  ``suppress_warnings = ["bioschemas.recommended"]``) and gated by
+  ``sphinx-build -W`` like any other Sphinx warning.
+
+Fixed
+-----
+
+- The ``.. bioschemas:: <file>`` directive form (referencing an external
+  file by path, rather than inline content) crashed every real Sphinx build
+  with ``AttributeError: 'BuildEnvironment' object has no attribute
+  'confdir'`` — Sphinx's real build environment never had a ``confdir``
+  attribute, only ``srcdir``; this only "worked" in the test suite because
+  the test double set one. Path resolution now falls back to ``srcdir``.
+- A non-JSON-serializable YAML scalar (e.g. an unquoted ``HH:MM:SS`` time,
+  parsed by PyYAML as a ``datetime.time``) crashed the whole build with an
+  unhandled ``TypeError`` from ``json.dumps()``; it now falls back to a
+  best-effort string representation and, when validation is enabled, is
+  flagged as a ``bioschemas.serialize`` finding.
+
+Changed
+-------
+
+- The extension now logs through ``sphinx.util.logging`` instead of the
+  stdlib ``logging`` module. This means file-not-found and file-parse
+  failures for ``load_bioschemas_file()`` (previously silent outside a
+  configured log handler) are now real, counted Sphinx warnings under
+  ``bioschemas.file`` — a build run with ``sphinx-build -W`` that previously
+  passed despite a missing/broken bioschemas file may now fail. Restore the
+  old quiet behaviour with ``suppress_warnings = ["bioschemas.file"]``.
+
+`Full diff <https://github.com/biocorecrg/sphinx-bioschemas/compare/v0.2.1...v0.3.0>`_
+
 0.2.1 - 2026-08-06
 ==================
 

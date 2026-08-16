@@ -109,6 +109,17 @@ keywords: schemaorg, BioSchemas, FAIR, GitHub pages
 license: MIT
 ```
 
+## Validation
+
+The directive's `:validate:`/`:no-validate:` options (see the {ref}`Validation <validation>`
+section) work the same way in MyST fenced-directive syntax:
+
+````
+```{bioschemas} ./bioschemas.yaml
+:no-validate:
+```
+````
+
 ## Resources
 
 - [Using Markdown with Sphinx](https://www.sphinx-doc.org/en/master/usage/markdown.html)
