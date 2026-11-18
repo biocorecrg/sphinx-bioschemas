@@ -148,15 +148,15 @@ Multiple files are supported and both YAML and JSON formats are accepted:
 Validation
 ==========
 
-Bioschemas markup is easy to get subtly wrong — a missing property, a typo in a key, a
-``conformsTo`` that no longer matches the profile version — and none of that breaks the build,
+Bioschemas markup is easy to get subtly wrong (a missing property, a typo in a key, a
+``conformsTo`` that no longer matches the profile version), and none of that breaks the build,
 so it can go unnoticed for a long time. Validation catches this at build time, in two tiers:
 
 1. **Structural checks** (always available, no extra dependency): is ``@context`` schema.org,
    is ``@type`` present, is ``conformsTo`` well-formed, is the record JSON-serializable.
 2. **Profile checks**: for records that declare a Bioschemas profile via ``conformsTo``, the
-   record is validated against that profile's own machine-readable ``$validation`` JSON Schema
-   — the same document that defines which properties are *Minimum* (required), *Recommended*,
+   record is validated against that profile's own machine-readable ``$validation`` JSON Schema,
+   the same document that defines which properties are *Minimum* (required), *Recommended*,
    and *Optional* for that profile and version. This tier requires the optional ``jsonschema``
    package.
 
@@ -174,8 +174,9 @@ Enable it by installing the extra and setting ``bioschemas_validate``:
 
 Findings are logged through Sphinx's own warning machinery under the ``bioschemas`` type, with
 subtypes ``required``, ``recommended``, ``schema``, ``context``, ``type``, ``profile``,
-``serialize``, and ``deps`` — so ``sphinx-build -W`` already turns warnings into build failures,
-and any subtype can be silenced with ``suppress_warnings``, e.g.:
+``serialize``, and ``deps``. ``sphinx-build -W`` turns warning- and error-level findings into
+build failures (informational ones never fail a build), and any subtype can be silenced with
+``suppress_warnings``, e.g.:
 
 .. code-block:: python
 
@@ -188,22 +189,33 @@ and any subtype can be silenced with ``suppress_warnings``, e.g.:
 - ``True`` or ``"warn"`` — missing *Minimum* properties and schema violations are warnings;
   missing *Recommended* properties are informational (tune this with
   ``bioschemas_validate_recommended``, which accepts ``"ignore"``, ``"info"``, or ``"warn"``).
-- ``"info"`` — everything is informational only, nothing is ever a build-failing warning.
-- ``"strict"`` — missing *Minimum* properties and schema violations become errors.
+- ``"info"`` — findings are informational only. The one exception is a record that cannot be
+  serialized to JSON (``serialize``), which stays a warning because the extension has to emit
+  that value as a plain string.
+- ``"strict"`` — missing *Minimum* properties, schema violations, and serialization problems
+  become errors. Missing *Recommended* properties become warnings, whatever
+  ``bioschemas_validate_recommended`` says, and so do the "no ``conformsTo`` found" and
+  "``jsonschema`` not installed" notes.
+
+Sphinx does not change its exit status for errors or warnings unless you build with ``-W``, so
+``"strict"`` on its own only changes the level findings are logged at. To make bad markup fail
+a CI build, use ``"warn"`` or ``"strict"`` together with ``-W``
+(``make html SPHINXOPTS="-W --keep-going"``). On Sphinx older than 8.1, ``-W`` stops at the
+first warning; add ``--keep-going`` to see them all.
 
 The ``.. bioschemas::`` directive also accepts ``:validate:`` (one of ``info``/``warn``/
 ``strict``/``off``, overriding the site-wide setting for that one record) and ``:no-validate:``
-(always skip, regardless of the site-wide setting) — handy for a record that's intentionally
+(always skip, regardless of the site-wide setting). Use these for a record that's intentionally
 partial or doesn't conform to any profile.
 
 Resolving profiles
 -------------------
 
 Bioschemas builds should stay hermetic and not depend on network access, so profile schemas
-are resolved **local-directory-first**:
+are resolved from local directories first:
 
 1. Each directory listed in ``bioschemas_validate_profile_dir`` is checked for a file named
-   ``<ProfileName>_v<Version>.json`` — the exact filename used upstream, so you can download it
+   ``<ProfileName>_v<Version>.json``, the exact filename used upstream, so you can download it
    directly, e.g.:
 
    .. code-block:: console
@@ -218,10 +230,13 @@ are resolved **local-directory-first**:
    the network again. This is opt-in and off by default because it makes a build depend on
    GitHub being reachable and on the mutable upstream ``master`` branch.
 
-A profile that can't be resolved never fails the build — validation simply falls back to
-structural checks only, with one informational note explaining why.
+When a profile can't be resolved, validation falls back to structural checks only and logs
+one ``bioschemas.profile`` message explaining why. In ``"warn"`` and ``"strict"`` mode that
+message is a warning, so a ``-W`` build fails until you add the profile file, enable fetching,
+or silence it with ``suppress_warnings = ["bioschemas.profile"]``. Without ``jsonschema``
+installed, profiles are never looked up, so this message does not appear.
 
-**What this does not do**: there is no SHACL validation, no resolution of ``@context`` against
+This validation has limits: there is no SHACL validation, no resolution of ``@context`` against
 a live schema.org vocabulary, and no check that a URL actually resolves. It is a build-time
 sanity check against the profile's own declared shape, not a substitute for the official
 `Bioschemas validator <https://bioschemas.org/tools>`_.

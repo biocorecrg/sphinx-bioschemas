@@ -212,3 +212,12 @@ __marimo__/
 # Claude Code
 CLAUDE.md
 PLAN*.md
+
+# tokenade — per-project cache / scaffold flag / dedup refs
+.tokenade/
+
+# tokenade — legacy per-project embedding model cache (now global)
+.fastembed_cache/
+
+# uv lockfile (library: CI installs with pip, deps resolve from pyproject.toml)
+uv.lock
