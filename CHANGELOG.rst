@@ -7,6 +7,25 @@ All notable changes to this project are documented in this file.
 The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.1.0/>`_,
 and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+Unreleased
+===
+
+Added
+-----
+
+- Support for Python 3.14 (with Sphinx 6.2 or later).
+
+Removed
+-------
+
+- Support for Python 3.10. The minimum is now Python 3.11.
+
+Fixed
+-----
+
+- Documented that Python 3.13 and later need Sphinx 6.2 or later, because Sphinx 5.3 imports
+  the ``imghdr`` module, which Python 3.13 removed.
+
 0.3.0 - 2026-08-13
 ==================
 

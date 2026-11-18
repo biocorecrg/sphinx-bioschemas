@@ -20,6 +20,9 @@ Installation
 
        $ pip install sphinx-bioschemas
 
+   Requires Python 3.11 or later and Sphinx 5.3 or later. On Python 3.13 and later, use
+   Sphinx 6.2 or later: Sphinx 5.3 imports the ``imghdr`` module, which Python 3.13 removed.
+
 2. After setting up Sphinx to build your docs, enable it in the
    Sphinx `conf.py` file::
 
